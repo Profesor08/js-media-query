@@ -1,7 +1,3 @@
-function media(mediaQueryString: string): boolean {
-  return window.matchMedia(mediaQueryString).matches;
-}
-
 interface IBreapoints {
   xs: number;
   sm: number;
@@ -10,7 +6,21 @@ interface IBreapoints {
   xl: number;
 }
 
-const globalBreakpoints: IBreapoints = {
+type MediaEventType = "in" | "out" | "changed";
+type MediaCallback = () => void;
+type MediaEventAction = () => boolean;
+
+interface MediaEvent {
+  media: () => boolean;
+  callback: () => void;
+  value: boolean;
+}
+
+type IGlobalEvents = {
+  [key in MediaEventType]: MediaEvent[];
+};
+
+const defaultBreakpoints: IBreapoints = {
   xs: 0,
   sm: 576,
   md: 768,
@@ -18,111 +28,19 @@ const globalBreakpoints: IBreapoints = {
   xl: 1200,
 };
 
-/**
- * Check media query
- */
-function query(mediaQuery: string): boolean {
-  return media(mediaQuery);
-}
-
-/**
- * Minimum breakpoint width
- */
-function min(breakpoint: number) {
-  return media(`(min-width: ${breakpoint}px)`);
-}
-
-/**
- * Maximum breakpoint width
- */
-function max(breakpoint: number) {
-  return media(`(max-width: ${breakpoint}px)`);
-}
-
-/**
- * Minimum breakpoint width
- */
-function up(breakpoint: number): boolean {
-  return min(breakpoint);
-}
-
-/**
- * Maximum breakpoint width
- */
-function down(breakpoint: number): boolean {
-  return max(breakpoint);
-}
-
-/**
- * Check if screen between the from and to breakpoints
- */
-function between(from: number, to: number): boolean {
-  return media(`(min-width: ${from}px) and (max-width: ${to}px)`);
-}
-
-/**
- * Check if is touck device
- */
-function isTouch() {
-  return media(`(pointer: coarse)`);
-}
-
-/**
- * Check if is non-touch device
- */
-function isMouse() {
-  return media(`(pointer: fine)`);
-}
-
-/**
- * Check if screen is bigger or equal to xs global defined breapoint
- */
-function xs(breakpoints: IBreapoints = globalBreakpoints) {
-  return up(breakpoints.xs);
-}
-
-/**
- * Check if screen is bigger or equal to sm global defined breapoint
- */
-function sm(breakpoints: IBreapoints = globalBreakpoints) {
-  return up(breakpoints.sm);
-}
-
-/**
- * Check if screen is bigger or equal to md global defined breapoint
- */
-function md(breakpoints: IBreapoints = globalBreakpoints) {
-  return up(breakpoints.md);
-}
-
-/**
- * Check if screen is bigger or equal to lg global defined breapoint
- */
-function lg(breakpoints: IBreapoints = globalBreakpoints) {
-  return up(breakpoints.lg);
-}
-
-/**
- * Check if screen is bigger or equal to xl global defined breapoint
- */
-function xl(breakpoints: IBreapoints = globalBreakpoints) {
-  return up(breakpoints.xl);
-}
-
-function setBreakpoints(breakpoints: IBreapoints) {
-  this.breakpoints = {
-    xs: breakpoints.xs,
-    sm: breakpoints.sm,
-    md: breakpoints.md,
-    lg: breakpoints.lg,
-    xl: breakpoints.xl,
-  };
-}
-
 export class Media {
-  private breakpoints: IBreapoints = globalBreakpoints;
+  private breakpoints: IBreapoints = defaultBreakpoints;
 
-  constructor(breakpoints: IBreapoints = globalBreakpoints) {
+  private events: IGlobalEvents = {
+    in: [],
+    out: [],
+    changed: [],
+  };
+
+  /**
+   * Media object constructor
+   */
+  constructor(breakpoints: IBreapoints = defaultBreakpoints) {
     this.setBreakpoints(breakpoints);
   }
 
@@ -140,140 +58,201 @@ export class Media {
   }
 
   /**
-   * Check media query
+   * Match Media query
    */
-  public query = query;
-
-  /**
-   * Minimum breakpoint width
-   */
-  public min = min;
-
-  /**
-   * Maximum breakpoint width
-   */
-  public max = max;
-
-  /**
-   * Minimum breakpoint width
-   */
-  public up = up;
-
-  /**
-   * Maximum breakpoint width
-   */
-  public down = down;
-
-  /**
-   * Check if screen between the from and to breakpoints
-   */
-  public between = between;
-
-  /**
-   * Check if is touck device
-   */
-  public isTouch = isTouch;
-
-  /**
-   * Check if is non-touch device
-   */
-  public isMouse = isMouse;
-
-  /**
-   * Check if screen is bigger or equal to xs class defined breapoint
-   */
-  public xs = () => xs(this.breakpoints);
-
-  /**
-   * Check if screen is bigger or equal to sm class defined breapoint
-   */
-  public sm = () => sm(this.breakpoints);
-
-  /**
-   * Check if screen is bigger or equal to md class defined breapoint
-   */
-  public md = () => md(this.breakpoints);
-
-  /**
-   * Check if screen is bigger or equal to lg class defined breapoint
-   */
-  public lg = () => lg(this.breakpoints);
-
-  /**
-   * Check if screen is bigger or equal to xl class defined breapoint
-   */
-  public xl = () => xl(this.breakpoints);
+  private media = (mediaQueryString: string): boolean => {
+    return window.matchMedia(mediaQueryString).matches;
+  };
 
   /**
    * Check media query
    */
-  public static query = query;
+  public query = (mediaQuery: string): boolean => {
+    return this.media(mediaQuery);
+  };
 
   /**
    * Minimum breakpoint width
    */
-  public static min = min;
+  public min = (breakpoint: number) => {
+    return this.query(`(min-width: ${breakpoint}px)`);
+  };
 
   /**
    * Maximum breakpoint width
    */
-  public static max = max;
+  public max = (breakpoint: number) => {
+    return this.query(`(max-width: ${breakpoint}px)`);
+  };
 
   /**
    * Minimum breakpoint width
    */
-  public static up = up;
+  public up = (breakpoint: number): boolean => {
+    return this.min(breakpoint);
+  };
 
   /**
    * Maximum breakpoint width
    */
-  public static down = down;
+  public down = (breakpoint: number): boolean => {
+    return this.max(breakpoint);
+  };
 
   /**
    * Check if screen between the from and to breakpoints
    */
-  public static between = between;
+  public between = (from: number, to: number): boolean => {
+    return this.query(`(min-width: ${from}px) and (max-width: ${to}px)`);
+  };
 
   /**
    * Check if is touck device
    */
-  public static isTouch = isTouch;
+  public isTouch = () => {
+    return this.query(`(pointer: coarse)`);
+  };
 
   /**
    * Check if is non-touch device
    */
-  public static isMouse = isMouse;
+  public isMouse = () => {
+    return this.query(`(pointer: fine)`);
+  };
 
   /**
-   * Check if screen is bigger or equal to xs global defined breapoint
+   * Check if screen is bigger or equal to xs breapoint
    */
-  public static xs = xs;
+  public xs = () => {
+    return this.up(this.breakpoints.xs);
+  };
 
   /**
-   * Check if screen is bigger or equal to sm global defined breapoint
+   * Check if screen is bigger or equal to sm breapoint
    */
-  public static sm = sm;
+  public sm = () => {
+    return this.up(this.breakpoints.sm);
+  };
 
   /**
-   * Check if screen is bigger or equal to md global defined breapoint
+   * Check if screen is bigger or equal to md breapoint
    */
-  public static md = md;
+  public md = () => {
+    return this.up(this.breakpoints.md);
+  };
 
   /**
-   * Check if screen is bigger or equal to lg global defined breapoint
+   * Check if screen is bigger or equal to lg breapoint
    */
-  public static lg = lg;
+  public lg = () => {
+    return this.up(this.breakpoints.lg);
+  };
 
   /**
-   * Check if screen is bigger or equal to xl global defined breapoint
+   * Check if screen is bigger or equal to xl breapoint
    */
-  public static xl = xl;
+  public xl = () => {
+    return this.up(this.breakpoints.xl);
+  };
 
   /**
-   * Set Global breapoints
+   *
+   * @param {string} event Event name ex: "activated" | "deactivated" | "changed"
+   * @param {function} callback Function what will be executed if event is triggered
+   * @param {function} media Function what returns media query result: true/false
    */
-  public static setBreakpoints = setBreakpoints;
+  public on = (
+    event: MediaEventType,
+    callback: () => void,
+    media: () => boolean,
+  ) => {
+    if (callback instanceof Function) {
+      this.events[event].push({
+        media,
+        callback,
+        value: media(),
+      });
+    }
+
+    this.initEvents();
+  };
+
+  public off = (
+    ...args: [MediaEventType, MediaCallback?, MediaEventAction?]
+  ): void => {
+    const [event, callback, media] = args;
+
+    if (callback === undefined) {
+      this.events[event] = [];
+    } else if (media === undefined) {
+      this.events[event] = this.events[event].filter(
+        mediaEvent => !(mediaEvent.callback === callback),
+      );
+    } else {
+      this.events[event] = this.events[event].filter(
+        mediaEvent =>
+          !(mediaEvent.callback === callback && mediaEvent.media === media),
+      );
+    }
+
+    this.initEvents();
+  };
+
+  private resize = () => {
+    for (const eventType in this.events) {
+      const events: MediaEvent[] = this.events[eventType];
+      for (const event of events) {
+        const value = event.media();
+
+        if (event.value !== value) {
+          if (eventType === "changed") {
+            event.callback();
+          } else if (eventType === "in") {
+            if (value === true) {
+              event.callback();
+            }
+          } else if (eventType === "out") {
+            if (value === false) {
+              event.callback();
+            }
+          }
+
+          event.value = value;
+        }
+      }
+    }
+  };
+
+  private initEvents = () => {
+    for (const eventType in this.events) {
+      if (this.events[eventType].length) {
+        window.addEventListener("resize", () => {
+          this.resize();
+        });
+        return;
+      }
+    }
+
+    window.removeEventListener("resize", this.resize);
+  };
 }
+
+const media = new Media();
+
+const query = media.query;
+const min = media.min;
+const max = media.max;
+const up = media.up;
+const down = media.down;
+const between = media.between;
+const isTouch = media.isTouch;
+const isMouse = media.isMouse;
+const xs = media.xs;
+const sm = media.sm;
+const md = media.md;
+const lg = media.lg;
+const xl = media.xl;
+const setBreakpoints = media.setBreakpoints;
 
 export {
   query,
@@ -292,4 +271,4 @@ export {
   setBreakpoints,
 };
 
-export default Media;
+export default media;

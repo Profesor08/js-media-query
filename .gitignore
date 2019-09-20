@@ -1,3 +1,4 @@
+.cache/
 .git/
 node_modules/
 .vscode/
@@ -5,4 +6,5 @@ node_modules/
 .rts2_cache_es/
 .rts2_cache_umd/
 .rts2_cache_modern/
+demo/
 package-lock.json
