@@ -1,0 +1,28 @@
+{
+  "name": "media",
+  "version": "1.0.0",
+  "description": "CSS Media query in js",
+  "source": "src/index.ts",
+  "main": "dist/media.js",
+  "module": "dist/media.mjs",
+  "unpkg": "dist/media.umd.js",
+  "scripts": {
+    "build": "microbundle build",
+    "dev": "microbundle watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Profesor08/media.git"
+  },
+  "author": "profesor08",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Profesor08/media/issues"
+  },
+  "homepage": "https://github.com/Profesor08/media#readme",
+  "devDependencies": {
+    "microbundle": "^0.11.0"
+  },
+  "dependencies": {}
+}
