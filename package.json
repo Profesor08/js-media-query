@@ -1,6 +1,6 @@
 {
-  "name": "media",
-  "version": "1.0.0",
+  "name": "js-media-query",
+  "version": "1.0.1",
   "description": "CSS Media query in js",
   "source": "src/index.ts",
   "main": "dist/media.js",

@@ -1,22 +1,34 @@
 import Media, {
-  down,
-  isMouse,
-  isTouch,
-  lg,
-  max,
-  md,
-  min,
   query,
-  sm,
+  min,
+  max,
   up,
-  xl,
+  down,
+  between,
+  isTouch,
+  isMouse,
   xs,
+  sm,
+  md,
+  lg,
+  xl,
+  setBreakpoints,
 } from "./Media";
 
-if (window !== undefined) {
-  // @ts-ignore
-  window.Media = Media;
-}
-
 export default Media;
-export { query, min, max, up, down, isTouch, isMouse, xs, sm, md, lg, xl };
+export {
+  query,
+  min,
+  max,
+  up,
+  down,
+  between,
+  isTouch,
+  isMouse,
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  setBreakpoints,
+};

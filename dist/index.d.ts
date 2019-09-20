@@ -1,3 +1,3 @@
-import Media, { down, isMouse, isTouch, lg, max, md, min, query, sm, up, xl, xs } from "./Media";
+import Media, { query, min, max, up, down, between, isTouch, isMouse, xs, sm, md, lg, xl, setBreakpoints } from "./Media";
 export default Media;
-export { query, min, max, up, down, isTouch, isMouse, xs, sm, md, lg, xl };
+export { query, min, max, up, down, between, isTouch, isMouse, xs, sm, md, lg, xl, setBreakpoints, };
