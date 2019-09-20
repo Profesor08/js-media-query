@@ -22,11 +22,11 @@ npm install js-media-query
 ## Usage
 
 ```javascript
-import Media from "./Media";
+import Media from "js-media-query";
 ```
 
 ```javascript
-import { up, sm, md } from "./Media";
+import { up, sm, md } from "js-media-query";
 ```
 
 See [Examples](#examples)
@@ -73,7 +73,7 @@ See [Examples](#examples)
 #### Basic Usage
 
 ```javascript
-import { min } from "./Media";
+import { min } from "js-media-query";
 
 window.addEventListener("resize", () => {
   if (min(992)) {
@@ -87,7 +87,7 @@ window.addEventListener("resize", () => {
 #### Using with default breakpoints
 
 ```javascript
-import Media from "./Media";
+import Media from "js-media-query";
 
 if (Media.sm()) {
   // Your code
@@ -97,7 +97,7 @@ if (Media.sm()) {
 #### Using with custom breakpoints
 
 ```javascript
-import { Media } from "./Media";
+import { Media } from "js-media-query";
 
 const media = new Media({
   xs: 0,
@@ -115,7 +115,7 @@ if (media.md()) {
 #### Event listening
 
 ```javascript
-import { Media } from "./Media";
+import { Media } from "js-media-query";
 
 const media = new Media();
 
