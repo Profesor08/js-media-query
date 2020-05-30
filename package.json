@@ -1,12 +1,13 @@
 {
   "name": "js-media-query",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CSS Media query in js",
   "source": "src/index.ts",
   "main": "dist/media.js",
   "umd:main": "dist/media.umd.js",
   "module": "dist/media.mjs",
   "unpkg": "dist/media.umd.js",
+  "types": "dist/Media/index.d.ts",
   "scripts": {
     "build": "microbundle build src/index.ts",
     "dev": "microbundle watch src/index.ts",
@@ -23,7 +24,7 @@
   },
   "homepage": "https://github.com/Profesor08/js-media-query#readme",
   "devDependencies": {
-    "microbundle": "^0.11.0"
+    "microbundle": "^0.12.0"
   },
   "dependencies": {}
 }

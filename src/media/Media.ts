@@ -186,11 +186,11 @@ export class Media {
       this.events[event] = [];
     } else if (media === undefined) {
       this.events[event] = this.events[event].filter(
-        mediaEvent => !(mediaEvent.callback === callback),
+        (mediaEvent) => !(mediaEvent.callback === callback),
       );
     } else {
       this.events[event] = this.events[event].filter(
-        mediaEvent =>
+        (mediaEvent) =>
           !(mediaEvent.callback === callback && mediaEvent.media === media),
       );
     }
@@ -200,7 +200,7 @@ export class Media {
 
   private resize = () => {
     for (const eventType in this.events) {
-      const events: MediaEvent[] = this.events[eventType];
+      const events: MediaEvent[] = this.events[eventType as MediaEventType];
       for (const event of events) {
         const value = event.media();
 
@@ -225,7 +225,7 @@ export class Media {
 
   private initEvents = () => {
     for (const eventType in this.events) {
-      if (this.events[eventType].length) {
+      if (this.events[eventType as MediaEventType].length) {
         window.addEventListener("resize", () => {
           this.resize();
         });
