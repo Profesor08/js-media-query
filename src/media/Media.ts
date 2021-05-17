@@ -28,7 +28,7 @@ const defaultBreakpoints: IBreapoints = {
   xl: 1200,
 };
 
-export class Media {
+export class JsMediaQuery {
   private breakpoints: IBreapoints = defaultBreakpoints;
 
   private events: IGlobalEvents = {
@@ -237,38 +237,22 @@ export class Media {
   };
 }
 
-const media = new Media();
+const media = new JsMediaQuery();
 
-const query = media.query;
-const min = media.min;
-const max = media.max;
-const up = media.up;
-const down = media.down;
-const between = media.between;
-const isTouch = media.isTouch;
-const isMouse = media.isMouse;
-const xs = media.xs;
-const sm = media.sm;
-const md = media.md;
-const lg = media.lg;
-const xl = media.xl;
-const setBreakpoints = media.setBreakpoints;
-
-export {
-  query,
-  min,
-  max,
-  up,
-  down,
-  between,
-  isTouch,
-  isMouse,
-  xs,
-  sm,
-  md,
-  lg,
-  xl,
-  setBreakpoints,
-};
+export const Media = media;
+export const query = media.query;
+export const min = media.min;
+export const max = media.max;
+export const up = media.up;
+export const down = media.down;
+export const between = media.between;
+export const isTouch = media.isTouch;
+export const isMouse = media.isMouse;
+export const xs = media.xs;
+export const sm = media.sm;
+export const md = media.md;
+export const lg = media.lg;
+export const xl = media.xl;
+export const setBreakpoints = media.setBreakpoints;
 
 export default media;
