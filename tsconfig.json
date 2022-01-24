@@ -5,8 +5,18 @@
     "outDir": "dist",
     "strict": true,
     "sourceMap": true,
-    "lib": ["dom", "es5", "scripthost", "es2015.promise"]
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.promise"
+    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*-spec.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*-spec.ts"
+  ]
 }
